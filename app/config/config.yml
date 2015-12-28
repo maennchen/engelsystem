@@ -72,3 +72,5 @@ fos_user:
     db_driver: orm
     user_class: UserBundle\Entity\User
     firewall_name: main
+
+nelmio_api_doc: ~
