@@ -2,7 +2,12 @@
 
 namespace ShiftBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Blameable\Blameable;
+use Gedmo\Blameable\Traits\BlameableEntity;
+use Gedmo\Timestampable\Timestampable;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Hateoas\Configuration\Annotation as Hateoas;
 use JMS\Serializer\Annotation\Groups;
 
@@ -19,21 +24,14 @@ use JMS\Serializer\Annotation\Groups;
  *     ),
  *     exclusion=@Hateoas\Exclusion(
  *         groups={"shift_detail"}
- *     )
- * )
- * @Hateoas\Relation(
- *     "delete",
- *     href=@Hateoas\Route(
- *         "shift_shift_delete",
- *         parameters = { "shift" = "expr(object.getId())" }
  *     ),
- *     exclusion=@Hateoas\Exclusion(
- *         groups={"shift_detail"}
- *     )
  * )
  */
-class Shift
+class Shift implements Timestampable, Blameable
 {
+    use TimestampableEntity;
+    use BlameableEntity;
+
     /**
      * @var int
      *
@@ -62,7 +60,7 @@ class Shift
     private $description;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @Groups({"shift_detail"})
      *
@@ -71,14 +69,13 @@ class Shift
     private $start;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @Groups({"shift_detail"})
      *
      * @ORM\Column(name="end", type="datetime")
      */
     private $end;
-
 
     /**
      * Get id
@@ -141,7 +138,7 @@ class Shift
     /**
      * Set start
      *
-     * @param \DateTime $start
+     * @param DateTime $start
      *
      * @return Shift
      */
@@ -155,7 +152,7 @@ class Shift
     /**
      * Get start
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getStart()
     {
@@ -165,7 +162,7 @@ class Shift
     /**
      * Set end
      *
-     * @param \DateTime $end
+     * @param DateTime $end
      *
      * @return Shift
      */
@@ -179,7 +176,7 @@ class Shift
     /**
      * Get end
      *
-     * @return \DateTime
+     * @return DateTime
      */
     public function getEnd()
     {
