@@ -1,1 +1,32 @@
 security:
+    encoders:
+        Fos\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_DEVELOPER: ROLE_ANGEL
+        ROLE_BUREAUCRAT: ROLE_ANGEL
+        ROLE_TEAM_COORDINATOR: ROLE_ANGEL
+        ROLE_SHIFT_COORDINATOR: ROLE_ANGEL
+        ROLE_SHIFT_MANAGER: ROLE_ANGEL
+        ROLE_ANGEL: ROLE_USER
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            form_login:
+                provider: fos_userbundle
+                csrf_token_generator: security.csrf.token_manager
+            logout: true
+            anonymous: true
+
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
