@@ -1,0 +1,18 @@
+services:
+    shift_bundle.controller.shift:
+        class: ShiftBundle\Controller\ShiftController
+        arguments:
+            - "@shift_bundle.handler.shift"
+            - "@router"
+    shift_bundle.handler.shift:
+        class: ShiftBundle\Handler\ShiftHandler
+        arguments:
+            - "@shift_bundle.repository.shift"
+    shift_bundle.repository.shift:
+        class: ShiftBundle\Repository\ShiftRepository
+        public: false
+        factory:
+            - "@doctrine"
+            - getRepository
+        arguments:
+            - ShiftBundle:Shift
