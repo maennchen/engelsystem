@@ -2,13 +2,14 @@
 
 namespace UserBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="fos_user")
  * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
  */
 class User extends BaseUser
@@ -77,6 +78,16 @@ class User extends BaseUser
      * @ORM\Column(name="checkedIn", type="boolean")
      */
     private $checkedIn;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="UserBundle\Entity\Group")
+     * @ORM\JoinTable(name="fos_user_user_group",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     * @var Group[]|Collection
+     */
+    protected $groups;
 
     public function __construct()
     {

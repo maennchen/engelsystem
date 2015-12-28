@@ -73,6 +73,8 @@ fos_user:
     db_driver: orm
     user_class: UserBundle\Entity\User
     firewall_name: main
+    group:
+        group_class: UserBundle\Entity\Group
 
 nelmio_api_doc: ~
 
