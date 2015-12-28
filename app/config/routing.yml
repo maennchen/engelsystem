@@ -5,8 +5,6 @@ ShiftBundle:
     defaults:
         _format: json
 
-AppBundle:
-    resource: "@AppBundle/Controller/"
     type:     annotation
 
 FOSUserBundle:
