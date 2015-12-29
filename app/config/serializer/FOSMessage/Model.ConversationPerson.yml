@@ -12,7 +12,3 @@ FOS\Message\Model\ConversationPerson:
             exclusion:
                 groups:
                     - conversation_list
-    properties:
-        subject:
-            groups:
-                - conversation_list

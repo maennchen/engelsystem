@@ -92,6 +92,7 @@ nelmio_api_doc: ~
 
 jms_serializer:
     metadata:
+        auto_detection: true
         directories:
             FOSMessage:
                 namespace_prefix: "FOS\\Message"

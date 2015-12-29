@@ -40,3 +40,5 @@ services:
         class: MessageBundle\Controller\MessageController
         arguments:
             - "@fos_message.repository"
+            - "@fos_message.sender"
+            - "@security.token_storage"

@@ -64,7 +64,7 @@ class ConversationController
      *     description="Get details of a conversation",
      *     resource=true,
      *     output={
-     *         "class" = "FOS\Message\Model\ConversationInterface",
+     *         "class" = "FOS\Message\Model\Conversation",
      *         "groups" = { "conversation_detail" }
      *     },
      * )
