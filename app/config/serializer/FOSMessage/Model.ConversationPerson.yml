@@ -1,0 +1,18 @@
+FOS\Message\Model\ConversationPerson:
+    relations:
+        -   rel: conversation
+            embedded:
+                content: expr(object.getConversation())
+            exclusion:
+                groups:
+                    - conversation_list
+        -   rel: person
+            embedded:
+                content: expr(object.getPerson())
+            exclusion:
+                groups:
+                    - conversation_list
+    properties:
+        subject:
+            groups:
+                - conversation_list

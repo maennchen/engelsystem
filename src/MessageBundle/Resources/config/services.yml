@@ -1,0 +1,42 @@
+services:
+    fos_message.driver:
+        class: FOS\Message\Driver\Doctrine\ORM\DoctrineORMDriver
+        arguments: [ "@doctrine.orm.entity_manager" ]
+
+    fos_message.repository:
+        class: FOS\Message\Repository
+        arguments: [ "@fos_message.driver" ]
+
+    fos_message.event_dispatcher:
+        class: FOS\Message\EventDispatcher\SymfonyBridgeEventDispatcher
+        arguments: [ "@event_dispatcher" ]
+
+    fos_message.tagger:
+        class: FOS\Message\Tagger
+        arguments:
+            - "@fos_message.driver"
+            - "@fos_message.repository"
+
+    fos_message.sender:
+        class: FOS\Message\Sender
+        arguments:
+            - "@fos_message.driver"
+            - "@fos_message.event_dispatcher"
+
+    message_bundle.converter.conversation:
+        class: MessageBundle\Request\ParamConverter\ConversationParamConverter
+        arguments:
+            - "@fos_message.repository"
+        tags:
+            -   name: request.param_converter
+                converter: message_bundle.conversation
+
+    message_bundle.controller.conversation:
+        class: MessageBundle\Controller\ConversationController
+        arguments:
+            - "@fos_message.repository"
+
+    message_bundle.controller.message:
+        class: MessageBundle\Controller\MessageController
+        arguments:
+            - "@fos_message.repository"

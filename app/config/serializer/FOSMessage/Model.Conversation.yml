@@ -1,0 +1,17 @@
+FOS\Message\Model\Conversation:
+    relations:
+        -   rel: self
+            href: foo
+            exclusion:
+                groups:
+                    - conversation_list
+        -   rel: users
+            embedded:
+                content: expr(object.getConversationPersons())
+            exclusion:
+                groups:
+                    - conversation_list
+    properties:
+        subject:
+            groups:
+                - conversation_list

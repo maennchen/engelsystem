@@ -27,7 +27,8 @@
         "nelmio/api-doc-bundle": "^2.11",
         "jms/serializer-bundle": "^1.1",
         "willdurand/hateoas-bundle": "^1.1",
-        "stof/doctrine-extensions-bundle": "dev-master"
+        "stof/doctrine-extensions-bundle": "dev-master",
+        "friendsofsymfony/message": "1.0.x-dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

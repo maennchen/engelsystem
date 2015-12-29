@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: "@ShiftBundle/Resources/config/services.yml" }
+    - { resource: "@MessageBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
@@ -61,6 +62,17 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
 
+        # The mappings to import the FOSMessage entities
+        mappings:
+            fos_message:
+                type: annotation
+                dir: %kernel.root_dir%/../vendor/friendsofsymfony/message/src/Driver/Doctrine/ORM/Entity
+                prefix: FOS\Message\Driver\Doctrine\ORM\Entity
+
+        # User your user entity instead of the PersonInterface
+        resolve_target_entities:
+            FOS\Message\Model\PersonInterface: UserBundle\Entity\User
+
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
@@ -78,6 +90,12 @@ fos_user:
 
 nelmio_api_doc: ~
 
+jms_serializer:
+    metadata:
+        directories:
+            FOSMessage:
+                namespace_prefix: "FOS\\Message"
+                path: "%kernel.root_dir%/config/serializer/FOSMessage"
 
 fos_rest:
     body_converter:

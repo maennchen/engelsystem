@@ -4,15 +4,24 @@ namespace UserBundle\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use FOS\Message\Model\PersonInterface;
 use FOS\UserBundle\Model\User as BaseUser;
+use Hateoas\Configuration\Annotation as Hateoas;
 
 /**
  * User
  *
  * @ORM\Table(name="fos_user")
  * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
+ * @Hateoas\Relation(
+ *     "self",
+ *     href = "fooo",
+ *     exclusion=@Hateoas\Exclusion(
+ *         groups={"conversation_list"}
+ *     )
+ * )
  */
-class User extends BaseUser
+class User extends BaseUser implements PersonInterface
 {
     /**
      * @var int

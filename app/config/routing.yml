@@ -1,12 +1,16 @@
+MessageBundle:
+    resource: "@MessageBundle/Controller/"
+    type:     annotation
+    prefix:   /api
+    defaults:
+        _format: json
+
 ShiftBundle:
     resource: "@ShiftBundle/Controller/"
     type:     annotation
     prefix:   /api
     defaults:
         _format: json
-
-    type:     annotation
-
 FOSUserBundle:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
