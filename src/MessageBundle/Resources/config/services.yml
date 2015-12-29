@@ -35,6 +35,8 @@ services:
         class: MessageBundle\Controller\ConversationController
         arguments:
             - "@fos_message.repository"
+            - "@fos_message.sender"
+            - "@security.token_storage"
 
     message_bundle.controller.message:
         class: MessageBundle\Controller\MessageController
