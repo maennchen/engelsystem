@@ -4,6 +4,10 @@ namespace MessageBundle\Controller;
 use Api\Exception\ConstraintViolationBadRequestException;
 use FOS\Message\Model\ConversationInterface;
 use FOS\Message\Model\MessageInterface;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
+use FOS\RestBundle\Request\ParamFetcherInterface;
+use Hateoas\Representation\CollectionRepresentation;
+use Hateoas\Representation\OffsetRepresentation;
 use MessageBundle\Model\MessageInterface as InputMessageInterface;
 use FOS\Message\Model\PersonInterface;
 use FOS\Message\RepositoryInterface;
@@ -69,12 +73,34 @@ class MessageController
      * @Route
      * @View(serializerGroups={"message_list"})
      * @param ConversationInterface $conversation
+     * @param ParamFetcherInterface $paramFetcher
+     * @QueryParam(name="limit", requirements="\d+", default="10", description="Limit Results")
+     * @QueryParam(name="offset", requirements="\d+", default="0", description="Offset Results")
      * @ParamConverter(name="conversation", converter="message_bundle.conversation")
-     * @return MessageInterface[]
+     * @return OffsetRepresentation|MessageInterface[]
      */
-    public function messagesAction(ConversationInterface $conversation)
+    public function messagesAction(ConversationInterface $conversation, ParamFetcherInterface $paramFetcher)
     {
-        return $this->repository->getMessages($conversation);
+        return new OffsetRepresentation(
+            new CollectionRepresentation(
+                $this->repository->getMessages(
+                    $conversation,
+                    (int) $paramFetcher->get('offset'),
+                    (int) $paramFetcher->get('limit')
+                ),
+                'message:message',
+                'message'
+            ),
+            'message_message_messages',
+            [
+                'conversation' => $conversation->getId(),
+            ],
+            (int) $paramFetcher->get('offset'),
+            (int) $paramFetcher->get('limit'),
+            null,
+            'offset',
+            'limit'
+        );
     }
 
     /**

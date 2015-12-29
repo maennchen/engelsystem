@@ -73,31 +73,17 @@ class ConversationController
      * )
      * @Route("/users/{user}/conversations")
      * @param PersonInterface $user
-     * @param ParamFetcherInterface $paramFetcher
-     * @QueryParam(name="limit", requirements="\d+", default="10", description="Limit Results")
-     * @QueryParam(name="offset", requirements="\d+", default="0", description="Offset Results")
      * @ParamConverter(name="user", class="UserBundle:User", converter="doctrine.orm")
      * @Method("GET")
      * @View(serializerGroups={"conversation_list"})
-     * @return ConversationInterface[]
+     * @return CollectionRepresentation|ConversationInterface[]
      */
-    public function listAction(PersonInterface $user, ParamFetcherInterface $paramFetcher)
+    public function listAction(PersonInterface $user)
     {
-        return new OffsetRepresentation(
-            new CollectionRepresentation(
-                $this->repository->getPersonConversations($user),
-                'message:conversation',
-                'conversation'
-            ),
-            'message_conversation_list',
-            [
-                'user' => $user,
-            ],
-            $paramFetcher->get('offset'),
-            $paramFetcher->get('limit'),
-            null,
-            'offset',
-            'limit'
+        return new CollectionRepresentation(
+            $this->repository->getPersonConversations($user),
+            'message:conversation',
+            'conversation'
         );
     }
 
