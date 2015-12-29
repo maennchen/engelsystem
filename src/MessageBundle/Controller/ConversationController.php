@@ -7,8 +7,12 @@ use FOS\Message\Model\ConversationInterface;
 use FOS\Message\Model\PersonInterface;
 use FOS\Message\RepositoryInterface;
 use FOS\Message\SenderInterface;
+use FOS\RestBundle\Controller\Annotations\QueryParam;
 use FOS\RestBundle\Controller\Annotations\Route;
 use FOS\RestBundle\Controller\Annotations\View;
+use FOS\RestBundle\Request\ParamFetcherInterface;
+use Hateoas\Representation\CollectionRepresentation;
+use Hateoas\Representation\OffsetRepresentation;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -69,14 +73,32 @@ class ConversationController
      * )
      * @Route("/users/{user}/conversations")
      * @param PersonInterface $user
+     * @param ParamFetcherInterface $paramFetcher
+     * @QueryParam(name="limit", requirements="\d+", default="10", description="Limit Results")
+     * @QueryParam(name="offset", requirements="\d+", default="0", description="Offset Results")
      * @ParamConverter(name="user", class="UserBundle:User", converter="doctrine.orm")
      * @Method("GET")
      * @View(serializerGroups={"conversation_list"})
      * @return ConversationInterface[]
      */
-    public function listAction(PersonInterface $user)
+    public function listAction(PersonInterface $user, ParamFetcherInterface $paramFetcher)
     {
-        return $this->repository->getPersonConversations($user);
+        return new OffsetRepresentation(
+            new CollectionRepresentation(
+                $this->repository->getPersonConversations($user),
+                'message:conversation',
+                'conversation'
+            ),
+            'message_conversation_list',
+            [
+                'user' => $user,
+            ],
+            $paramFetcher->get('offset'),
+            $paramFetcher->get('limit'),
+            null,
+            'offset',
+            'limit'
+        );
     }
 
     /**

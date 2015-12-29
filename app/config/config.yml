@@ -105,6 +105,7 @@ fos_rest:
         validation_errors_argument: validationErrors
     view:
         view_response_listener: force
+    param_fetcher_listener: true
 
 stof_doctrine_extensions:
     orm:
